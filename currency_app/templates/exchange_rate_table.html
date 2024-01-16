@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load render_table from django_tables2 %}
+
+{% block content %}
+    <h2>Exchange Rate Table</h2>
+    <form method="post" action="" class="form-container">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-field">
+                {{ form.eur_to_pln.label_tag }}
+                {{ form.eur_to_pln }}
+            </div>
+            <div class="form-field">
+                {{ form.usd_to_pln.label_tag }}
+                {{ form.usd_to_pln }}
+            </div>
+             <div class="form-field">
+                {{ form.chf_to_pln.label_tag }}
+                {{ form.chf_to_pln }}
+            </div>
+             <div class="form-field">
+                {{ form.eur_to_usd.label_tag }}
+                {{ form.eur_to_usd }}
+            </div>
+             <div class="form-field">
+                {{ form.chf_to_usd.label_tag }}
+                {{ form.chf_to_usd }}
+            </div>
+        </div>
+        <button class="button" type="submit">Apply Changes</button>
+    </form>
+    {% render_table table %}
+{% endblock %}

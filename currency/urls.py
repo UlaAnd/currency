@@ -17,6 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from currency_app.views import exchange_rate, exchange_rate_table
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", exchange_rate, name="exchange_rate_table"),
+    path("selected", exchange_rate_table, name="exchange_rate_table_choose"),
 ]
