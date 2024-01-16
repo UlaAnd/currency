@@ -46,8 +46,8 @@ class CurrencyController:
             & Q(chf_to_pln__isnull=False)
         )
         for instance in filled_instances:
-            instance.eur_to_usd = instance.eur_to_pln / instance.usd_to_pln
-            instance.chf_to_usd = instance.chf_to_pln / instance.usd_to_pln
+            instance.eur_to_usd = round((instance.eur_to_pln / instance.usd_to_pln), 4)
+            instance.chf_to_usd = round((instance.chf_to_pln / instance.usd_to_pln), 4)
             instance.save()
 
 
