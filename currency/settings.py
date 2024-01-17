@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-+q43--wmaint^gqyi(t2*f5o@-6m4g$rs$_oayxx3y#^#r=b3z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -127,5 +127,5 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CRONJOBS = [
-    ("0 12 * * *", "currency_app.schedule_task"),
+    ("0 12 * * *", "django.core.management.call_command", ["schedule_task"])
 ]
