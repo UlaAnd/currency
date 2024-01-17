@@ -50,12 +50,12 @@ Make sure you have the following installed:
    ```bash
    docker-compose run web python manage.py crontab add
    ```
-2. **Command that Runs Every Day at 12 PM to Update Data and Update .csv File**
+3. **Command that Runs Every Day at 12 PM to Update Data and Update .csv File**
 
    ```bash
    docker-compose run web python manage.py schedule_task
    ```
-3. **Linting - Help Keep Code Clean**
+4. **Linting - Help Keep Code Clean**
 
    - Make the lint script executable:
    
