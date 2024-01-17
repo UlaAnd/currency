@@ -1,26 +1,13 @@
 import django_tables2 as tables
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from django_tables2 import RequestConfig
 from django_tables2.export.export import TableExport
 from django_tables2.export.views import ExportMixin
 
+from .controllers import DataAnalysis
 from .forms import ColumnVisibilityForm
 from .models import ExchangeRate
 from .tables import ExchangeRateTable
-
-
-def exchange_rate(request: HttpRequest) -> HttpResponse:
-    queryset = ExchangeRate.objects.all()
-    table = ExchangeRateTable(queryset)
-    RequestConfig(request).configure(table)
-
-    export_format = request.GET.get("_export", None)
-    if TableExport.is_valid_format(export_format):
-        exporter = TableExport(export_format, table)
-        return exporter.response(f"table.{export_format}")
-
-    return render(request, "table.html", {"table": table})
 
 
 def exchange_rate_table(request: HttpRequest) -> HttpResponse:
@@ -31,6 +18,7 @@ def exchange_rate_table(request: HttpRequest) -> HttpResponse:
         "eur_to_usd",
         "chf_to_usd",
     ]
+    calculations = None
     if request.method == "POST":
         form = ColumnVisibilityForm(request.POST)
         if form.is_valid():
@@ -39,6 +27,9 @@ def exchange_rate_table(request: HttpRequest) -> HttpResponse:
                 for field_name, is_visible in form.cleaned_data.items()
                 if not is_visible
             ]
+            selected_pairs = form.changed_data
+            calculator = DataAnalysis()
+            calculations = calculator.calculations(selected_pairs=selected_pairs)
             request.session["invisible_columns"] = invisible_columns
     table = ExchangeRateTable(ExchangeRate.objects.all(), exclude=invisible_columns)
     form = ColumnVisibilityForm(initial={field: False for field in invisible_columns})
@@ -47,11 +38,17 @@ def exchange_rate_table(request: HttpRequest) -> HttpResponse:
         selected_invisible = request.session["invisible_columns"]
         response = export_table(export_format, selected_invisible)
         return response
+    if calculations:
+        return render(
+            request,
+            "exchange_rate_table.html",
+            {"table": table, "form": form, "calculation": calculations},
+        )
     else:
         return render(
             request,
             "exchange_rate_table.html",
-            {"table": table, "form": form, "test": "huh"},
+            {"table": table, "form": form},
         )
 
 
