@@ -3,7 +3,11 @@
 {% block content %}
     <h2>Exchange Rate Table</h2>
 
-{{test}}
+{% for key, value in calculation.items %}
+<h4>Calculations Data for the Exchange Rate of {{ key }}: </h4>
+<p>{{ value }}</p>
+{% endfor %}
+
     <form method="post" action="" class="form-container">
         {% csrf_token %}
         <div class="form-row">
