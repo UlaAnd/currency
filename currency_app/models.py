@@ -8,6 +8,8 @@ class ExchangeRate(models.Model):
     chf_to_pln = models.FloatField(verbose_name="CHF/PLN", null=True, blank=True)
     eur_to_usd = models.FloatField(verbose_name="EUR/USD", null=True, blank=True)
     chf_to_usd = models.FloatField(verbose_name="CHF/USD", null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return (
