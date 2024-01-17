@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
 {% load render_table from django_tables2 %}
-
 {% block content %}
     <h2>Exchange Rate Table</h2>
+
+{{test}}
     <form method="post" action="" class="form-container">
         {% csrf_token %}
         <div class="form-row">
@@ -29,6 +29,25 @@
             </div>
         </div>
         <button class="button" type="submit">Apply Changes</button>
+        <button id="exportSelectedButton" class="button"><a href="?_export=csv">Export selected data to CSV</a></button>
+        <button id="exportSelectedButtonall" class="button"><a href="?_export=csv_all">Export all currency data to CSV</a></button>
     </form>
-    {% render_table table %}
+    <div class="table-responsive">
+        {% render_table table %}
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Attach a click event handler to the button with the specified id
+        $("#exportSelectedButton").click(function() {
+            // Show an alert when the button is clicked
+            alert("Export selected data to CSV clicked!");
+        });
+        $("#exportSelectedButtonall").click(function() {
+            // Show an alert when the button is clicked
+            alert("Export selected data to CSV clicked!");
+        });
+    });
+</script>
 {% endblock %}
